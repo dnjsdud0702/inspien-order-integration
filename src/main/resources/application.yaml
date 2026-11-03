@@ -10,3 +10,6 @@ trace:
 
 job:
   interval-ms: 60000
+
+receipt:
+  backup-dir: receipts

@@ -3,6 +3,7 @@ package com.inspien.integration.order;
 import com.inspien.integration.common.trace.TraceLog;
 import com.inspien.integration.config.Config;
 import com.inspien.integration.ftp.FtpUploader;
+import com.inspien.integration.ftp.ReceiptBackup;
 import com.inspien.integration.shipment.ShipmentService;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -18,6 +19,7 @@ public class OrderJob {
     private final Config config;
     private final OrderDao dao;
     private final ShipmentService shipmentService;
+    private final ReceiptBackup receiptBackup;
     private final TraceLog traceLog;
 
     @Scheduled(fixedDelayString = "${job.interval-ms}")
@@ -40,7 +42,9 @@ public class OrderJob {
         String step = "RECEIPT";
         try {
             String fileName = config.getApplicantName() + "_" + order.orderId() + ".txt";
-            boolean uploaded = ftp.upload(fileName, receipt(order));
+            byte[] content = receipt(order);
+            receiptBackup.save(fileName, content);
+            boolean uploaded = ftp.upload(fileName, content);
             traceLog.ok(order.orderId(), step, uploaded ? fileName : fileName + " (이미 업로드됨)");
 
             step = "SHIPMENT";
