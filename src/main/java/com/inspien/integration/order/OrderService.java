@@ -1,6 +1,6 @@
 package com.inspien.integration.order;
 
-import com.inspien.integration.trace.TraceLog;
+import com.inspien.integration.common.trace.TraceLog;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
