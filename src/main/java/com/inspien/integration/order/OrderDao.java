@@ -1,5 +1,6 @@
 package com.inspien.integration.order;
 
+import com.inspien.integration.common.IdGenerator;
 import com.inspien.integration.config.Config;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,9 @@ import org.springframework.transaction.support.TransactionTemplate;
 @RequiredArgsConstructor
 public class OrderDao {
 
+    // ORDER_TB 체크 제약조건으로 STATUS는 N, Y만 허용된다.
     private static final String PENDING = "N";
+    private static final String SHIPPED = "Y";
 
     private final JdbcTemplate jdbc;
     private final TransactionTemplate transaction;
@@ -26,7 +29,7 @@ public class OrderDao {
             List<Order> saved = new ArrayList<>();
             String id = maxOrderId();
             for (Order order : orders) {
-                id = nextId(id);
+                id = IdGenerator.next(id);
                 saved.add(order.withOrderId(id));
             }
             jdbc.batchUpdate(sql, saved.stream()
@@ -45,18 +48,13 @@ public class OrderDao {
                 rs.getString("PRICE")), config.getApplicantKey(), PENDING);
     }
 
+    public void markShipped(String orderId) {
+        jdbc.update("UPDATE " + config.getOrderTable() + " SET STATUS = ? WHERE ORDER_ID = ? AND APPLICANT_KEY = ?",
+                SHIPPED, orderId, config.getApplicantKey());
+    }
+
     String maxOrderId() {
         return jdbc.queryForObject("SELECT MAX(ORDER_ID) FROM " + config.getOrderTable() + " WHERE APPLICANT_KEY = ?",
                 String.class, config.getApplicantKey());
-    }
-
-    /** 대문자 1자 + 숫자 3자리. A001 ... A999 다음은 B001이다. */
-    static String nextId(String current) {
-        if (current == null) {
-            return "A001";
-        }
-        char letter = current.charAt(0);
-        int number = Integer.parseInt(current.substring(1));
-        return number < 999 ? letter + String.format("%03d", number + 1) : (char) (letter + 1) + "001";
     }
 }

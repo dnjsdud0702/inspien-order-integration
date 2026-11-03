@@ -3,6 +3,7 @@ package com.inspien.integration.order;
 import com.inspien.integration.common.trace.TraceLog;
 import com.inspien.integration.config.Config;
 import com.inspien.integration.ftp.FtpUploader;
+import com.inspien.integration.shipment.ShipmentService;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ public class OrderJob {
 
     private final Config config;
     private final OrderDao dao;
+    private final ShipmentService shipmentService;
     private final TraceLog traceLog;
 
     @Scheduled(fixedDelayString = "${job.interval-ms}")
@@ -33,13 +35,18 @@ public class OrderJob {
         }
     }
 
+    // 영수증 업로드 → 운송 입력 + Y 변경 순서로 처리한다. 영수증이 실패하면 운송 입력도 하지 않는다.
     private void process(Order order, FtpUploader ftp) {
+        String step = "RECEIPT";
         try {
             String fileName = config.getApplicantName() + "_" + order.orderId() + ".txt";
             boolean uploaded = ftp.upload(fileName, receipt(order));
-            traceLog.ok(order.orderId(), "RECEIPT", uploaded ? fileName : fileName + " (이미 업로드됨)");
+            traceLog.ok(order.orderId(), step, uploaded ? fileName : fileName + " (이미 업로드됨)");
+
+            step = "SHIPMENT";
+            traceLog.ok(order.orderId(), step, shipmentService.ship(order));
         } catch (Exception e) {
-            traceLog.fail(order.orderId(), "RECEIPT", e.getMessage());
+            traceLog.fail(order.orderId(), step, e.getMessage());
         }
     }
 

@@ -21,9 +21,9 @@ public class AppConfig {
     @Bean
     public DataSource dataSource(Config config) {
         return DataSourceBuilder.create()
-                .url(config.dbUrl)
-                .username(config.dbId)
-                .password(config.dbPassword)
+                .url(config.getDbUrl())
+                .username(config.getDbId())
+                .password(config.getDbPassword())
                 .build();
     }
 

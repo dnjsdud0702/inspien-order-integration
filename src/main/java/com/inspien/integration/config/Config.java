@@ -19,18 +19,18 @@ import lombok.Getter;
 @Getter
 public final class Config {
 
-    final String applicantKey;
-    final String applicantName;
-    final String dbUrl;
-    final String dbId;
-    final String dbPassword;
-    final String orderTable;
-    final String shipmentTable;
-    final String ftpHost;
-    final int ftpPort;
-    final String ftpId;
-    final String ftpPassword;
-    final String ftpPath;
+    private final String applicantKey;
+    private final String applicantName;
+    private final String dbUrl;
+    private final String dbId;
+    private final String dbPassword;
+    private final String orderTable;
+    private final String shipmentTable;
+    private final String ftpHost;
+    private final int ftpPort;
+    private final String ftpId;
+    private final String ftpPassword;
+    private final String ftpPath;
 
     private Config(JsonNode response, String phone, String applicantName) throws Exception {
         JsonNode order = response.get("ORDER_TB_CONN");

@@ -18,12 +18,12 @@ public final class ConnectionCheck {
     }
 
     private static void checkDb(Config config) {
-        try (Connection connection = DriverManager.getConnection(config.dbUrl, config.dbId, config.dbPassword)) {
+        try (Connection connection = DriverManager.getConnection(config.getDbUrl(), config.getDbId(), config.getDbPassword())) {
             System.out.println("[DB] 접속 성공");
-            for (String table : new String[] {config.orderTable, config.shipmentTable}) {
+            for (String table : new String[] {config.getOrderTable(), config.getShipmentTable()}) {
                 String sql = "SELECT COUNT(*) FROM " + table + " WHERE APPLICANT_KEY = ?";
                 try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                    statement.setString(1, config.applicantKey);
+                    statement.setString(1, config.getApplicantKey());
                     try (ResultSet rs = statement.executeQuery()) {
                         rs.next();
                         System.out.println("[DB] " + table + " 내 데이터 " + rs.getInt(1) + "건");
@@ -40,19 +40,19 @@ public final class ConnectionCheck {
         ftp.setControlEncoding("UTF-8"); // 한글 파일명
         try {
             ftp.setConnectTimeout(10_000);
-            ftp.connect(config.ftpHost, config.ftpPort);
-            if (!ftp.login(config.ftpId, config.ftpPassword)) {
+            ftp.connect(config.getFtpHost(), config.getFtpPort());
+            if (!ftp.login(config.getFtpId(), config.getFtpPassword())) {
                 System.out.println("[FTP] 로그인 실패");
                 return;
             }
             ftp.enterLocalPassiveMode();
-            if (!ftp.changeWorkingDirectory(config.ftpPath)) {
+            if (!ftp.changeWorkingDirectory(config.getFtpPath())) {
                 System.out.println("[FTP] 업로드 경로 이동 실패");
                 return;
             }
             String[] names = ftp.listNames();
             long mine = names == null ? 0
-                    : java.util.Arrays.stream(names).filter(name -> name.startsWith(config.applicantName)).count();
+                    : java.util.Arrays.stream(names).filter(name -> name.startsWith(config.getApplicantName())).count();
             System.out.println("[FTP] 접속 성공, 내 파일 " + mine + "개");
         } catch (Exception e) {
             System.out.println("[FTP] 실패: " + e.getMessage());
