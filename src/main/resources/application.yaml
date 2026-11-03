@@ -7,3 +7,6 @@ server:
 
 trace:
   file: logs/trace.log
+
+job:
+  interval-ms: 60000

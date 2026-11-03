@@ -37,6 +37,14 @@ public class OrderDao {
         });
     }
 
+    public List<Order> findPendingOrders() {
+        String sql = "SELECT ORDER_ID, USER_ID, ITEM_ID, NAME, ADDRESS, ITEM_NAME, PRICE FROM " + config.getOrderTable()
+                + " WHERE APPLICANT_KEY = ? AND STATUS = ? ORDER BY ORDER_ID";
+        return jdbc.query(sql, (rs, rowNum) -> new Order(rs.getString("ORDER_ID"), rs.getString("USER_ID"),
+                rs.getString("ITEM_ID"), rs.getString("NAME"), rs.getString("ADDRESS"), rs.getString("ITEM_NAME"),
+                rs.getString("PRICE")), config.getApplicantKey(), PENDING);
+    }
+
     String maxOrderId() {
         return jdbc.queryForObject("SELECT MAX(ORDER_ID) FROM " + config.getOrderTable() + " WHERE APPLICANT_KEY = ?",
                 String.class, config.getApplicantKey());

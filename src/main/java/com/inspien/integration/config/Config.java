@@ -11,10 +11,12 @@ import javax.crypto.spec.SecretKeySpec;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
 
 
 
 /** 채용 API 응답(response.json)을 휴대폰 번호(phone.txt)로 복호화해 접속 정보를 만든다. */
+@Getter
 public final class Config {
 
     final String applicantKey;
@@ -56,13 +58,37 @@ public final class Config {
         return new Config(response, phone, applicantName);
     }
 
-    public String getApplicantKey() {
-        return applicantKey;
-    }
+    // public String getApplicantKey() {
+    //     return applicantKey;
+    // }
 
-    public String getOrderTable() {
-        return orderTable;
-    }
+    // public String getOrderTable() {
+    //     return orderTable;
+    // }
+
+    // public String getApplicantName() {
+    //     return applicantName;
+    // }
+
+    // public String getFtpHost() {
+    //     return ftpHost;
+    // }
+
+    // public int getFtpPort() {
+    //     return ftpPort;
+    // }
+
+    // public String getFtpId() {
+    //     return ftpId;
+    // }
+
+    // public String getFtpPassword() {
+    //     return ftpPassword;
+    // }
+
+    // public String getFtpPath() {
+    //     return ftpPath;
+    // }
 
     /** 키: 휴대폰 번호 UTF-8 바이트 -> SHA-1 -> 앞 16바이트. 알고리즘: AES-128/ECB/PKCS5Padding. */
     static String decrypt(String base64, String phone) throws Exception {
