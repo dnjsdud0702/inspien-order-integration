@@ -3,6 +3,7 @@ package com.inspien.integration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.inspien.integration.config.Config;
+import com.inspien.integration.config.ConnectionCheck;
 import java.nio.file.Path;
 
 
@@ -25,6 +26,7 @@ public class IntegrationApplication {
 
 		System.out.println("접속 정보 로딩 완료");
 		System.out.println("지원자 키: " + config.getApplicantKey());
+		ConnectionCheck.run(config);
 	}
 }
 
