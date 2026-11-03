@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-// STATUS가 N인 주문을 주기적으로 처리 -> 실패한 주문은 N으로 남아 다음 주기에 다시 처리
+// STATUS가 N인 주문 주기 처리 -> 실패하면 N 유지, 다음 주기에 재처리
 @Component
 @RequiredArgsConstructor
 public class OrderJob {
@@ -37,7 +37,7 @@ public class OrderJob {
         }
     }
 
-    // 영수증 업로드 → 운송 입력 + Y 변경 순서로 처리한다. 영수증이 실패하면 운송 입력도 하지 않는다.
+    // 영수증 업로드 -> 배송 입력 + Y 변경 순서, 영수증 실패하면 배송 입력 안 함
     private void process(Order order, FtpUploader ftp) {
         String step = "RECEIPT";
         try {

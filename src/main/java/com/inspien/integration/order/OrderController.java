@@ -27,7 +27,7 @@ public class OrderController {
         return ResponseEntity.status(result.saved().isEmpty() ? 400 : 200).body(response);
     }
 
-    // XML 형식이 깨진 경우 
+    // XML 형식 오류 -> 400
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, Object>> badRequest(IllegalArgumentException e) {
         return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));

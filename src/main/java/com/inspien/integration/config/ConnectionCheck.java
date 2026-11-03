@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import org.apache.commons.net.ftp.FTPClient;
 
-/** 복호화한 접속 정보로 DB와 FTP에 실제 접속되는지 확인한다. 데이터는 읽기만 한다. */
+// 시작 시 DB, FTP 접속 확인 (조회만)
 public final class ConnectionCheck {
 
     private ConnectionCheck() {
@@ -62,7 +62,7 @@ public final class ConnectionCheck {
                     ftp.disconnect();
                 }
             } catch (Exception ignored) {
-                // 확인용 연결이라 종료 실패는 무시한다
+                // 확인용 연결이라 종료 실패는 무시
             }
         }
     }

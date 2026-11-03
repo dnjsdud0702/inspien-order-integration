@@ -8,7 +8,7 @@ import java.util.Set;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 
-// 과제 FTP는 덮어쓰기·삭제가 불가능해서, 이미 있는 파일은 다시 올리지 않는다.
+// FTP 덮어쓰기, 삭제 불가 -> 이미 있는 파일은 업로드 안 함
 public class FtpUploader implements AutoCloseable {
 
     private final FTPClient client = new FTPClient();
@@ -32,7 +32,7 @@ public class FtpUploader implements AutoCloseable {
         existingFiles = names == null ? Set.of() : Set.of(names);
     }
 
-    // 이미 있는 파일이면 올리지 않고 false를 돌려준다.
+    // 이미 있는 파일이면 false
     public boolean upload(String fileName, byte[] content) throws IOException {
         if (existingFiles.contains(fileName)) {
             return false;

@@ -13,9 +13,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 
-
-
-/** 채용 API 응답(response.json)을 휴대폰 번호(phone.txt)로 복호화해 접속 정보를 만든다. */
+// response.json 접속 정보 -> 휴대폰 번호(phone.txt)로 복호화
 @Getter
 public final class Config {
 
@@ -39,7 +37,7 @@ public final class Config {
 
         this.applicantKey = response.get("APPLICANT_KEY").asText();
         this.applicantName = applicantName;
-        // 주문과 운송 테이블은 같은 DB, 같은 계정으로 제공되어 접속 정보를 하나만 사용한다.
+        // 주문, 운송 테이블이 같은 DB·계정 -> 접속 정보 하나만 사용
         this.dbUrl = decrypt(order.get("URL").asText(), phone);
         this.dbId = decrypt(order.get("ID").asText(), phone);
         this.dbPassword = decrypt(order.get("PASSWORD").asText(), phone);
@@ -58,39 +56,7 @@ public final class Config {
         return new Config(response, phone, applicantName);
     }
 
-    // public String getApplicantKey() {
-    //     return applicantKey;
-    // }
-
-    // public String getOrderTable() {
-    //     return orderTable;
-    // }
-
-    // public String getApplicantName() {
-    //     return applicantName;
-    // }
-
-    // public String getFtpHost() {
-    //     return ftpHost;
-    // }
-
-    // public int getFtpPort() {
-    //     return ftpPort;
-    // }
-
-    // public String getFtpId() {
-    //     return ftpId;
-    // }
-
-    // public String getFtpPassword() {
-    //     return ftpPassword;
-    // }
-
-    // public String getFtpPath() {
-    //     return ftpPath;
-    // }
-
-    /** 키: 휴대폰 번호 UTF-8 바이트 -> SHA-1 -> 앞 16바이트. 알고리즘: AES-128/ECB/PKCS5Padding. */
+    // 키: 휴대폰 번호(UTF-8) -> SHA-1 -> 앞 16바이트, AES-128/ECB/PKCS5Padding
     static String decrypt(String base64, String phone) throws Exception {
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
         cipher.init(Cipher.DECRYPT_MODE, secretKey(phone));

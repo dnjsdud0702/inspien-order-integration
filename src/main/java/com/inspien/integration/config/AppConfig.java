@@ -17,7 +17,7 @@ public class AppConfig {
         return Config.load(Path.of(secretDir), applicantName);
     }
 
-    //DB 접속 설정
+    // DB 접속 설정
     @Bean
     public DataSource dataSource(Config config) {
         return DataSourceBuilder.create()

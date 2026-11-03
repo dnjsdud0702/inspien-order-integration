@@ -13,7 +13,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 @RequiredArgsConstructor
 public class OrderDao {
 
-    // ORDER_TB 체크 제약조건으로 STATUS는 N, Y만 허용된다.
+    // ORDER_TB 체크 제약조건: STATUS는 N, Y만 허용
     private static final String PENDING = "N";
     private static final String SHIPPED = "Y";
 

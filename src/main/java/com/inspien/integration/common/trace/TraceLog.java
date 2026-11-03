@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-// 처리이력 파일로 남김 -> 조회: grep A002 logs/trace.log
+// 처리 이력 파일로 남김 -> 조회: grep A002 logs/trace.log
 @Component
 public class TraceLog {
 
@@ -27,7 +27,7 @@ public class TraceLog {
         write(target, step, "FAIL", detail);
     }
 
-    // 이력 기록이 실패해도 주문 처리는 계속되어야 하므로 예외를 던지지 않는다.
+    // 이력 기록 실패해도 주문 처리는 계속 -> 예외 안 던짐
     private synchronized void write(String target, String step, String result, String detail) {
         String line = String.join(" | ", LocalDateTime.now().toString(), target, step, result, detail);
         System.out.println(line);

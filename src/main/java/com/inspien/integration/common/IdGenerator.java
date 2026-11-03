@@ -1,7 +1,7 @@
 package com.inspien.integration.common;
 
-// ORDER_ID, SHIPMENT_ID 규칙: 대문자 1자 + 숫자 3자리. A001 ... A999 다음은 B001이다.
-// DB 시퀀스를 만들 권한이 없어 현재 최댓값에서 다음 값을 계산한다.
+// ID 규칙: 대문자 1자 + 숫자 3자리 (A001 ... A999 -> B001)
+// 시퀀스 생성 권한 없음 -> 현재 최댓값 + 1
 public final class IdGenerator {
 
     private IdGenerator() {

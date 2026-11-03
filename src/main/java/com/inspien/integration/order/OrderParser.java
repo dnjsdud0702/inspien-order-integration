@@ -14,7 +14,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-//XML -> Order 객체로 변환
+// XML -> Order 객체로 변환
 @Component
 public class OrderParser {
 
@@ -55,7 +55,7 @@ public class OrderParser {
         return new Result(orders, errors);
     }
 
-    //XML 파싱 -> Document 객체 변환
+    // XML 파싱 -> Document 객체 변환
     private Document read(String xml) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true); // XXE 차단
@@ -67,13 +67,13 @@ public class OrderParser {
         }
     }
 
-    //주문 객체에 필수값이 하나라도 비어있으면 true 반환
+    // 필수값이 하나라도 비어있으면 true
     private boolean hasBlank(Order order) {
         return Stream.of(order.userId(), order.itemId(), order.name(), order.address(), order.itemName(),
                 order.price()).anyMatch(String::isEmpty);
     }
 
-    //주어진 태그의 텍스트를 반환. 태그가 없으면 빈 문자열 반환
+    // 태그 텍스트 반환, 태그 없으면 빈 문자열
     private String text(Element parent, String tag) {
         NodeList nodes = parent.getElementsByTagName(tag);
         return nodes.getLength() == 0 ? "" : nodes.item(0).getTextContent().strip();
