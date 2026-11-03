@@ -4,3 +4,6 @@ spring:
 
 server:
   port: 8080
+
+trace:
+  file: logs/trace.log
