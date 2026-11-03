@@ -1,0 +1,12 @@
+<HEADER>
+    <USER_ID>USER01</USER_ID>
+    <NAME>김철수</NAME>
+    <ADDRESS>서울특별시 강남구</ADDRESS>
+</HEADER>
+
+<ITEM>
+    <USER_ID>USER01</USER_ID>
+    <ITEM_ID>ITEM01</ITEM_ID>
+    <ITEM_NAME>반팔티</ITEM_NAME>
+    <PRICE>12000</PRICE>
+</ITEM>
