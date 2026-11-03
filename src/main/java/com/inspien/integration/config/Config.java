@@ -60,6 +60,10 @@ public final class Config {
         return applicantKey;
     }
 
+    public String getOrderTable() {
+        return orderTable;
+    }
+
     /** 키: 휴대폰 번호 UTF-8 바이트 -> SHA-1 -> 앞 16바이트. 알고리즘: AES-128/ECB/PKCS5Padding. */
     static String decrypt(String base64, String phone) throws Exception {
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");

@@ -19,11 +19,17 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	// response.json 읽기용
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
 	implementation 'commons-net:commons-net:3.10.0'
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc17'
 
+	ompileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
