@@ -4,3 +4,8 @@ build/
 *.iml
 out/
 .DS_Store
+.vscode/
+.github/modernize/
+
+secret/
+logs/
