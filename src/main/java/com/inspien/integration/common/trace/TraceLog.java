@@ -1,4 +1,4 @@
-package com.inspien.integration.trace;
+package com.inspien.integration.common.trace;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
